@@ -131,16 +131,22 @@ const handleReset = debounce(async () => {
   }
 
   if (user_password.value.trim() !== "") {
-    const res = await reset(data);
-    console.log(res);
-    if (res.data.code === "200") {
+    try {
+      const res = await reset(data);
+      if (res.data.code === "200") {
+        Message({
+          text: res.data.msg,
+          type: "success",
+        });
+      } else {
+        Message({
+          text: res.data.msg,
+          type: "error",
+        });
+      }
+    } catch (e) {
       Message({
-        text: res.data.msg,
-        type: "success",
-      });
-    }else{
-       Message({
-        text: res.data.msg,
+        text: "没有mock环境,修改失败",
         type: "error",
       });
     }

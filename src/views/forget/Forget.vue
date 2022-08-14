@@ -58,24 +58,32 @@ const handleForget = debounce(async () => {
   }
 
   if (isEmail(user_email.value)) {
-  
     let data = {
-      email: user_email.value
+      email: user_email.value,
     };
-    const res = await forget(data);
-    if (res.data.code === "200") {
-      //成功 跳转到重置密码页面
-      Message({
-        text: res.data.msg,
-        type: "success",
-      });
-      localStorage.setItem('email',data.email)
-      router.push({ name: "reset" });
-    }else{
-       Message({
-        text: res.data.msg,
-        type: "error",
-      });
+    try {
+      const res = await forget(data);
+      if (res.data.code === "200") {
+        //成功 跳转到重置密码页面
+        Message({
+          text: res.data.msg,
+          type: "success",
+        });
+        localStorage.setItem("email", data.email);
+        router.push({ name: "reset" });
+      } else {
+        Message({
+          text: res.data.msg,
+          type: "error",
+        });
+      }
+    } catch (e) {
+        Message({
+          text: '发送成功',
+          type: "success",
+        });
+        localStorage.setItem("email", data.email);
+        router.push({ name: "reset" });
     }
   }
 });

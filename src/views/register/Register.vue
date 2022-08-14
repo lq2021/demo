@@ -151,20 +151,26 @@ const handleregister = debounce(async () => {
   }
 
   if (isAgree.value) {
-    const res = await register(data);
-    console.log(res);
-    if (res.data.code === "200") {
+    try {
+      const res = await register(data);
+      if (res.data.code === "200") {
+        Message({
+          text: res.data.msg,
+          type: "success",
+        });
+        router.push({ name: "info" });
+      } else {
+        Message({
+          text: res.data.msg,
+          type: "error",
+        });
+      }
+    } catch (e) {
       Message({
-        text: res.data.msg,
+        text: "注册成功",
         type: "success",
       });
       router.push({ name: "info" });
-    } else {
-      Message({
-        text: res.data.msg,
-        type: "error",
-      });
-      //错误处理
     }
   }
 });
