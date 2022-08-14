@@ -108,7 +108,7 @@ const handleLogin = debounce(async () => {
 
 
   const res = await login(data);
-
+  console.log(res)
   if (res.data.code === "200") {
     Message({
       text: res.data.msg,
